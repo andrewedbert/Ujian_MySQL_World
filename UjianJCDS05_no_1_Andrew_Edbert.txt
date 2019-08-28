@@ -1,0 +1,77 @@
+show databases;
+use world;
+show tables;
+select * from country;
+select * from city;
+select * from countrylanguage;
+
+# No. 1.1
+select * from city where CountryCode = 'IDN' order by Population desc limit 10;
+
+# No. 1.2
+select ci.id, ci.Name, ci.district, co.Name, ci.population 
+from (select Name, Code from country) co
+inner join city ci
+on ci.CountryCode = co.Code
+order by Population desc
+limit 10;
+
+# No. 1.3
+select * from country 
+where IndepYear != 0 order by IndepYear asc limit 10;
+
+# No. 1.4
+select Continent, count(*) as Jumlah, sum(Population), 
+avg(LifeExpectancy) 
+from country group by Continent 
+having count(name)>10
+order by sum(Population) desc;
+
+# No 1.5
+select Name, Continent, LifeExpectancy, GNP 
+from country where Continent = 'Asia' 
+and LifeExpectancy > 
+(select avg(LifeExpectancy) from country 
+where Continent = 'Europe') order by LifeExpectancy desc;
+
+# No 1.6
+select * from countrylanguage 
+where language = 'English' 
+and IsOfficial = 'T' order by Percentage desc limit 10;
+
+# No 1.7
+select co.Name as Negara_ASEAN, co.Population as Populasi_Negara, 
+co.GNP, ci.Name as Ibukota, ci.Population as Populasi_Ibukota 
+from (select ID, Name, Population from city) ci
+inner join country co
+on co.Capital = ci.ID
+where Region = 'Southeast Asia';
+
+##################################################################################
+select Name, Population from country where Region = 'Southeast Asia';
+
+# No 1.8
+select co.Name as Negara, co.Population, co.GNP, ci.Name as Ibukota, ci.Population as Populasi_Ibukota 
+from (select ID, Name, Population from city) ci
+inner join country co
+on co.Capital = ci.ID
+where co.Name = 'Argentina'
+or co.Name = 'Australia'
+or co.Name = 'Brazil'
+or co.Name = 'Canada'
+or co.Name = 'China'
+or co.Name = 'France'
+or co.Name = 'Germany'
+or co.Name = 'India'
+or co.Name = 'Indonesia'
+or co.Name = 'Italy'
+or co.Name = 'Japan'
+or co.Name = 'Mexico'
+or co.Name = 'Russian Federation'
+or co.Name = 'Saudi Arabia'
+or co.Name = 'South Africa'
+or co.Name = 'South Korea'
+or co.Name = 'Turkey'
+or co.Name = 'United Kingdom'
+or co.Name = 'United States'
+order by co.Name;
